@@ -98,7 +98,12 @@ async def summarize(start_date, end_date, category=None):  # Changed: added asyn
     except Exception as e:
         return {"status": "error", "message": f"Error summarizing expenses: {str(e)}"}
 
-@mcp.resource("expense://categories", mime_type="application/json")  # http:// or file://
+@mcp.resource("expense:///categories", mime_type="application/json")  
+# The three slashes (///) indicate there's no host/authority component - it goes straight to the path. This is valid and common for custom URI schemes in MCP
+# scheme://host/path - with a host
+# scheme:///path - without a host (the empty string between // and / represents no host)
+
+
 def categories():
     try:
         # Provide default categories if file doesn't exist
